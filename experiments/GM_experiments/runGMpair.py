@@ -3,7 +3,7 @@ from sklearn import preprocessing
 
 from src.GM import UGW
 
-def RunOneSimulation(config, param, norm = False):
+def runGMpair(config, param, norm = False):
     '''
     Runs GromovMatcher on a pair of simulated datasets
 
@@ -62,7 +62,5 @@ def RunOneSimulation(config, param, norm = False):
 
 
 
-RunOneSimulation([0.75, 0.01, 0.5, 0.5,'smooth',1], [0.01,'MAD', 2])
+runGMpair([0.75, 0.01, 0.5, 0.5,'smooth',1], [0.01,'MAD', 2])
 # For loop on the different simulation configurations to get full results
-
-

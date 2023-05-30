@@ -1,6 +1,7 @@
 function [] = M2S_script(batch, num_batches)
     batch = str2num(batch)
     num_batches = str2num(num_batches)
+    addpath("../")
     addpath("../..")
     addpath("M2S")
     
@@ -80,7 +81,7 @@ function [] = M2S_script(batch, num_batches)
         
         % Generate two LC-MS datasets using python script (for older Matlab versions)
         dataset = "../../datasets/metabolomics_normalized_data.xlsx"
-        runstr = sprintf("python ../../simulate_data.py '%s' '%f' '%f' '%f' '%f' '%f' '%s' '%d' '%s'", dataset, overlap, sigmaM, sigmaRT, sigmaFI, rho, drift, trial, normalize);
+        runstr = sprintf("python ../simulate_data.py '%s' '%f' '%f' '%f' '%f' '%f' '%s' '%d' '%s'", dataset, overlap, sigmaM, sigmaRT, sigmaFI, rho, drift, trial, normalize);
         [status, cmdout] = system(runstr);
         %cmdout
         assert(status == 0)
