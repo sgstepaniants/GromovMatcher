@@ -43,4 +43,4 @@ The entire GromovMatcher algorithm combining both these steps is defined in `src
 The code for the latest M2S toolbox is located in `experiments/M2S_experiments/M2S` taken from the github repository https://github.com/rjdossan/M2S.
 
 ### MetabCombiner (mC)
-The code for the latest metabCombiner toolbox is located in `experiments/mC_experiments/???` taken from the github repository https://github.com/???.
+The code for the latest metabCombiner toolbox is located in `experiments/mC_experiments/???` taken from the github repository https://github.com/hhabra/metabCombiner.
