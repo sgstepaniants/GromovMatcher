@@ -23,9 +23,21 @@ Our method was experimentally test on LC-MS data from three studies which were p
 
 https://epic.iarc.fr/access/submit_appl_access.php
 
-
-
 ## Code Dependencies
+
+### Unbalanced Gromov-Wasserstein
+GromovMatcher uses the Unbalanced Gromov-Wasserstein (UGW) algorithm to perform its matchings. Our implementation of the UGW algorithm in `src/ugw_sinkhorn_solver.py` is an extension of the original code at https://github.com/thibsej/unbalanced_gromov_wasserstein.
+
+## GromovMatcher Algorithm
+The GromovMatcher algorithm consists of two main steps:
+1. Matching metabolic features with Unbalanced Gromov-Wasserstein in `src/ugw_sinkhorn_solver.py`
+2. Filtering outlier matches through retention time drift estimation in `src/filtering.py`
+
+For details of both these steps see the "Results" and "Methods" sections of our paper.
+
+The entire GromovMatcher algorithm combining both these steps is defined in `src/GromovMatcher.py` under the `GM` function.
+
+## Existing Alignment Methods
 
 ### M2S
 The code for the latest M2S toolbox is located in `experiments/M2S_experiments/M2S` taken from the github repository https://github.com/rjdossan/M2S.
