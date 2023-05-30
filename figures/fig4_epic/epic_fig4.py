@@ -25,7 +25,7 @@ data_type1 = "CSPOS"
 data_type2 = "LIVERPOS"
 
 # GromovMatcher
-Pi_hat = np.load(f"../../EPIC_couplings/GMBSLogNorm_Data{data_type1}_Data{data_type2}.npy")
+Pi_hat = np.load(f"../../EPIC_couplings/GMLogNorm_Data{data_type1}_Data{data_type2}.npy")
 #Pi_hat[Pi_hat < 0.3*np.max(Pi_hat)] = 0
 matching = (Pi_hat > 0) & (Pi_hat >= np.maximum(np.max(Pi_hat, axis=1)[:, None], np.max(Pi_hat, axis=0)[None, :]))
 p1, p2 = matching.shape

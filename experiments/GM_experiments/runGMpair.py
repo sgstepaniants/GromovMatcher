@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn import preprocessing
 
-from src.GM import UGW
+from src.GromovMatcher import GM
 
 def runGMpair(config, param, norm = False):
     '''
@@ -49,11 +49,11 @@ def runGMpair(config, param, norm = False):
         # Center and scale. Falls back to cosine distance
         Data1[2:,:] = preprocessing.scale(Data1[2:,:], axis = 0)
         Data2[2:,:] = preprocessing.scale(Data2[2:,:], axis = 0)
-        file_name = "RES/UGWBScouple_Norm_"+str(config)+"_"+str(param)
+        file_name = "RES/GMcouple_Norm_"+str(config)+"_"+str(param)
     else:
-        file_name = "RES/UGWBScouple_"+str(config)+"_"+str(param)
+        file_name = "RES/GMcouple_"+str(config)+"_"+str(param)
     
-    coupling = UGW(Data1, Data2, mgap = mgap, verbose = verbose, RT_fit = 'all', RT_filter = rtfiltr, K_outliers = koutliers)
+    coupling = GM(Data1, Data2, mgap = mgap, verbose = verbose, RT_fit = 'all', RT_filter = rtfiltr, K_outliers = koutliers)
     
     RES = np.array(coupling)
     np.save(file_name, RES)
