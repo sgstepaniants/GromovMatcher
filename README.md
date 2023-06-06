@@ -51,7 +51,6 @@ For details of both these steps see the "Results" and "Methods" sections of our 
 The entire GromovMatcher algorithm combining both these steps is defined in `src/GromovMatcher.py` under the `GM` function.
 
 ## GromovMatcher Tutorial
-For Marie...
 
 
 ## Experiments
