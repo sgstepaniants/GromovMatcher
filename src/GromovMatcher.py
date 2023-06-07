@@ -18,7 +18,7 @@ def max_fun(couple):
 
 def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01, 
         lmbda = 0, otcost = None, mu = 0.5, quadratic = True,
-        RT_pred = True, RT_fit = 'all', RT_filter = 'hard_thr', inner_filter = 'PI', RT_thr = 0.1, K_outliers = 0, kn = 10, k_iter = 5,
+        RT_pred = True, RT_fit = 'all', RT_filter = 'MAD', inner_filter = 'PI', RT_thr = 0.1, K_outliers = 2,
         output_RT_pred = False,
         to_pandas = False, verbose = False, plot_list = [], plot_path = '', 
         rho = 5e-2, ent = 5e-3, nits=50, nits_sinkhorn=1000, tol=1e-15, tol_sinkhorn=1e-7, timeout=1200):
