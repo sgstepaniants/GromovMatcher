@@ -49,7 +49,7 @@ def piecewise_linear(x, breaks, b, coeffs):
                 lambda x:k0*x + b + k1*(x-x0) + k2*(x - x1) + k3*(x - x2) + k4*(x - x3)]
     return np.piecewise(x, condlist, funclist)
 
-def piecewise2(x):
+def piecewise(x):
     return(piecewise_linear(x,[2,5,7,8],0,[1,-0.6,1,-0.8,0.3]))
 
 
@@ -94,13 +94,12 @@ def generate_dataset_pair(config, data):
     samples2 = samples[halfsamples:numsamples, (num_mets-num_mets2):num_mets]
     
     #Add noise
-    #ms1 = ms1 + np.random.uniform(-0.5*sigmaM,0.5*sigmaM,size = num_mets1)
     ms2 = ms2 + np.random.uniform(-sigmaM,sigmaM,size = num_mets2)
     
     if drift == 'smooth':
         rs2 = smooth(rs2)
-    elif drift == 'piecewise2':
-        rs2 = piecewise2(rs2)
+    elif drift == 'piecewise':
+        rs2 = piecewise(rs2)
         
     rs2 = rs2 + sigmaRT * np.random.uniform(-1,1,size = num_mets2)
     rs2[rs2 < 0.1] = 0.1 
