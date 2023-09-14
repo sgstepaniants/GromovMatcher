@@ -16,6 +16,9 @@ def max_fun(couple):
     match[np.argmax(couple, axis = 0),np.linspace(0,n2-1,n2,dtype = int)] = np.max(couple, axis = 0)
     return(match)
 
+def keep_max(coupling):
+    return(max_fun(max_fun(coupling).transpose()).transpose())
+
 def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01, 
         lmbda = 0, otcost = None, mu = 0.5, quadratic = True,
         RT_pred = True, RT_fit = 'all', RT_filter = 'MAD', inner_filter = 'PI', RT_thr = 0.1, K_outliers = 2,
