@@ -20,7 +20,7 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
         lmbda = 0, otcost = None, mu = 0.5, quadratic = True,
         RT_pred = True, RT_fit = 'all', RT_filter = 'MAD', inner_filter = 'PI', RT_thr = 0.1, K_outliers = 2,
         output_RT_pred = False,
-        to_pandas = False, verbose = False, plot_list = [], plot_path = '', 
+        verbose = False, plot_list = [], plot_path = '', 
         rho = 5e-2, ent = 5e-3, nits=50, nits_sinkhorn=1000, tol=1e-15, tol_sinkhorn=1e-7, timeout=1200):
     
     '''
@@ -71,8 +71,6 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
     
     MISC:
     
-    
-    to_pandas = whether to return the coupling as a list of correspondances
     
     verbose = whether to detail the steps during execution of the function
     
@@ -430,17 +428,10 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
     else:
         couple = coupling
     
-    if to_pandas:
-        print('Output as a pd dataframe has not been implemented yet. Returning coupling matrix instead.')
-        if output_RT_pred:
-            return(couple, adj_spl)
-        else:
-            return(couple)
+    if output_RT_pred:
+        return(couple, adj_spl)
     else:
-        if output_RT_pred:
-            return(couple, adj_spl)
-        else:
-            return(couple)
+        return(couple)
 
 
-   
+
