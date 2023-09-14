@@ -10,6 +10,11 @@ library(dplyr)
 np <- import("numpy")
 
 Run_one_config = function(o,sigM,sigRT,sigFI,d,n,binGap, norm = FALSE){
+
+  ### Runs metabCombiner for one [overlap, m/z noise, RT noise, FI noise, RT drift shape, simulation number] configuration
+  ### Resulting coupling matrix is saved as a .npy file in 'RES/couple_['configuration'].npy'
+
+  
   config = c(o,sigM,sigRT,sigFI,d,n)
   
   overlap = toString(o)
@@ -20,7 +25,8 @@ Run_one_config = function(o,sigM,sigRT,sigFI,d,n,binGap, norm = FALSE){
   N = toString(n)
   
   conf = paste0(overlap,", ",sigmM,", ",sigmRT,", ",sigmFI,", '",drift,"', ",N)
-  
+
+  # Load the data, generated with simulate_data.py and stored in a DATA folder
   path1 = paste0('DATA/DATA1_[',conf,'].npy')
   path2 = paste0('DATA/DATA2_[',conf,'].npy')
   
@@ -66,7 +72,7 @@ Run_one_config = function(o,sigM,sigRT,sigFI,d,n,binGap, norm = FALSE){
     dataset2$id[id2] <- paste0('P_',toString(j))
   }
   
-  # MetabCombiner
+  # Run MetabCombiner
   data1 = metabData(dataset1, mz = "mz", rt = "rt", id = "id", adduct = NULL, samples = "V", extra = NULL)
   data2 = metabData(dataset2, mz = "mz", rt = "rt", id = "id", adduct = NULL, samples = "V", extra = NULL)
   data.combined = metabCombiner(xdata = data1, ydata = data2, binGap = binGap)
@@ -99,7 +105,7 @@ Run_one_config = function(o,sigM,sigRT,sigFI,d,n,binGap, norm = FALSE){
   RES = data.report
   RES_filtered = RES[(RES$labels != 'REMOVE'),]
   
-  # Output a coupling matrix rather than a list
+  # Reformat the output of metabCombiner into a coupling matrix
   coupling = matrix(0, nrow = length(dataset1$mz), ncol = length(dataset2$mz))
   rownames(coupling) <- dataset1$id
   colnames(coupling) <- dataset2$id
@@ -114,7 +120,8 @@ Run_one_config = function(o,sigM,sigRT,sigFI,d,n,binGap, norm = FALSE){
   return()
 }
 
-
+### Run the previous function for each configuration of interest and store the results in a RES folder
+                                 
 overlap = c(0.25, 0.5, 0.75)
 sigmasM = c(0.01)
 sigmasRT = c(0.2,0.5,1)
