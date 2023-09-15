@@ -23,7 +23,7 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
         lmbda = 0, otcost = None, mu = 0.5, quadratic = True,
         RT_pred = True, RT_fit = 'all', RT_filter = 'MAD', inner_filter = 'PI', RT_thr = 0.1, K_outliers = 2,
         output_RT_pred = False,
-        verbose = False, plot_list = [], plot_path = '', 
+        verbose = False, plot_list = [], plot_path = None, 
         rho = 5e-2, ent = 5e-3, nits=50, nits_sinkhorn=1000, tol=1e-15, tol_sinkhorn=1e-7, timeout=1200):
     
     '''
@@ -62,12 +62,12 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
     
     RT_pred = whether to predict RT drift and with which model. Can be either None, 'quantiles' or 'CV'
     None means no RT drift prediction will be carried out
-    Otherwise 'X' will be passed on to the SimplifiedWRT_adjustment function.
+    Otherwise 'X' will be passed on to the filtering.SimplifiedWRT_adjustment function.
     
     RT_fit = How the anchor set is computed, can be either 'all', 'max' or 'top'. 'all' takes all the recovered pairs in the matching into account to estimated the RT_drift with weighted b-splines. 'max' only takes into account the best match for each feature. 'top' takes only the top 10% pairs.
     
     RT_filter = whether to filter the coupling based on the estimated RT drift. Can be either 'None', 'MSE', 'MAD', 'mean', 'PI' or 'hard_thr'
-    Will be passed on to the SimplifiedWRT_adjustment function.
+    Will be passed on to the filtering.SimplifiedWRT_adjustment function.
     
     RT_thr = hard RELATIVE threshold for RT tolerance around the estimated RT deviation. Use with caution.
     
@@ -79,7 +79,7 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
     
     plot_list = list of intermediary plots. Must contain either 'Distance patterns','Weights','Coupling','RT drift', 'Outliers'
     
-    plot_path = path to where to put the requested plots
+    plot_path = path to where to put the requested plots. If None, the plots will only be displayed but not saved.
     '''
     
     #Data1 is row 1 : m/z, row 2 : RTS, following rows : samples
@@ -257,7 +257,8 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
         plt.figure()
         plt.title('D2', fontweight='bold')
         plt.matshow(D2)
-        plt.savefig(plot_path+'D2', dpi = 300)
+        if plot_path is not None:
+            plt.savefig(plot_path+'D2', dpi = 300)
     
     mu1 = np.ones(num_mets1) / num_mets1
     mu2 = np.ones(num_mets2) / num_mets2
@@ -285,7 +286,8 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
         plt.xlabel('metabolites 2')
         plt.ylabel('metabolites 1')
         plt.colorbar()
-        plt.savefig(plot_path+'Weights', dpi = 300)
+        if plot_path is not None:
+            plt.savefig(plot_path+'Weights', dpi = 300)
         
     
     if lmbda != 0:
@@ -341,7 +343,8 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
         plt.xlabel('metabolites 2')
         plt.ylabel('metabolites 1')
         plt.colorbar()
-        plt.savefig(plot_path+'Coupling.png', dpi=300)
+        if plot_path is not None:
+            plt.savefig(plot_path+'Coupling.png', dpi=300)
                
     ################################## RT deviation estimation and filtering
     
@@ -370,15 +373,16 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
                
         if 'RT drift' in plot_list :
             
-            x = np.array(sorted(rt1))
+            x = np.array(sorted(rs1))
             y = si.splev(x, adj_spl)
             plt.figure(figsize = (5,3),dpi = 300)
             plt.title('RT drift', fontweight='bold')
-            plt.scatter(rt1, rt2, s = 0.1, c = 'black')
+            plt.scatter(rs1, rs2, s = 0.1, c = 'black')
             plt.plot(x,y,c = 'blue', lw = 0.8)
             plt.xlabel('RTs in dataset 1 (min)')
             plt.ylabel('RTs in dataset 2 (min)')
-            plt.savefig(plot_path+'RT_drift.png', dpi = 300)
+            if plot_path is not None:
+                plt.savefig(plot_path+'RT_drift.png', dpi = 300)
             
         
         if verbose:
@@ -408,16 +412,6 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
                 error = np.abs(rt2_pred - rt2)
                 error = error/((rt2_pred + rt2)/2)
                 sel = error < RT_thr
-            
-            if 'RT drift' in plot_list :
-                col = np.where(sel,'black','red')
-                plt.figure(figsize = (6,6),dpi = 300)
-                plt.title('Outlier detection', fontweight='bold')
-                plt.scatter(rt1, rt2, s = 0.1, c=col)
-                plt.plot(x,y,c = 'blue', lw = 0.8)
-                plt.xlabel('RTs in dataset 1 (min)')
-                plt.ylabel('RTs in dataset 2 (min)')
-                plt.savefig(plot_path+'Outliers.png', dpi = 300)
     
             pairs = np.array(pairs)[:,sel]
     
@@ -428,8 +422,9 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
                 print('Done.')
                 print(np.count_nonzero(couple), 'pairs in the filtered coupling.')
     
-    else:
-        couple = coupling
+    
+
+    couple = couple/np.max(couple)
     
     if output_RT_pred:
         return(couple, adj_spl)
@@ -438,3 +433,30 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
 
 
 
+def link_feature(Data1, Data2, coupling, one_to_one = True):
+    '''Transforms the GM output into  list of pairs with their associated coupling coefficient
+    
+    Input: 
+    
+    Data1/2 = input data, shape (n1/n2 + 2)*p1/p2. First row is m/z, second row is RTs, then one row per sample. both numpy arrays and pandas dataframes are supported.
+    If numpy arrays are provided, since they do not contain feature names, each feature will be attributed a name in the form of "m/z@RT"
+    
+    coupling: coupling matrix (numpy array of size (p1, p2)) as output by GM
+    
+    one_to_one: (bool) whether to keep the most likely match for each feature
+    '''
+    if one_to_one:
+        coupling = max_fun(max_fun(coupling).transpose()).transpose()
+    if isinstance(Data1, np.ndarray):
+        index1 = np.apply_along_axis(lambda d: str(round(d[0], 4)) + '@' + str(round(d[1], 4)), 0, Data1[0:2,:])
+    else:
+        index1 = np.array(Data1.columns)
+    if isinstance(Data2, np.ndarray):
+        index2 = np.apply_along_axis(lambda d: str(round(d[0], 4)) + '@' + str(round(d[1], 4)), 0, Data2[0:2,:])
+    else:
+        index2 = np.array(Data2.columns)
+    
+    couple = pd.DataFrame(coupling, index = index1, columns = index2)
+    pair_list = pd.DataFrame(couple[couple != 0].stack())
+    
+    return(pair_list)
