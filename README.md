@@ -52,9 +52,3 @@ The entire GromovMatcher algorithm combining both these steps is defined in `src
 
 ## GromovMatcher Tutorial
 The application of GromovMatcher is detailed in the notebook `tutorial/GM_Example.ipynb`. Two toy datasets are provided as an example.
-
-## Experiments
-
-### Validation Experiments
-
-### EPIC experiments
