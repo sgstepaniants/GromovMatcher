@@ -422,7 +422,8 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
                 print('Done.')
                 print(np.count_nonzero(couple), 'pairs in the filtered coupling.')
     
-    
+    else:
+        couple = coupling
 
     couple = couple/np.max(couple)
     
