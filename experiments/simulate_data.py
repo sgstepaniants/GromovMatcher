@@ -56,6 +56,8 @@ def piecewise(x):
 
 
 def generate_dataset_pair(config, data):
+    # config = [overlap, inbalance in features, inbalance in samples, m/z noise, RT noise, FI noise, FI noise correlation, RT drift, N, norm]
+
     ms, rs, samples = readCorrMat(data)
     numsamples = samples.shape[0]
     num_mets = ms.size
@@ -67,12 +69,11 @@ def generate_dataset_pair(config, data):
     rs = rs[full_perm]
     samples = samples[:, full_perm]
     # add (relative) noise to samples
-    [overlap, sigmaM, sigmaRT, sigmaFI, rho, drift, N, norm] = config
-    setting = 0
+    [overlap, lambda_f, lambda_s, sigmaM, sigmaRT, sigmaFI, rho, drift, N, norm] = config
     
     #Assign mets to either one of the datasets
-    num_mets1 = math.floor(overlap*num_mets + (1+setting)*(num_mets*((1-overlap)/2)))
-    num_mets2 = math.floor(overlap*num_mets + (1-setting)*(num_mets*((1-overlap)/2)))
+    num_mets1 = math.floor(overlap*num_mets + (1+lambda_s)*(num_mets*((1-overlap)/2)))
+    num_mets2 = math.floor(overlap*num_mets + (1-lambda_s)*(num_mets*((1-overlap)/2)))
     num_mets_shared = num_mets1 + num_mets2 - num_mets
     
     mets_tracker1 = mets_tracker[0:num_mets1]
