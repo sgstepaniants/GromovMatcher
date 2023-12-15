@@ -72,8 +72,8 @@ def generate_dataset_pair(config, data):
     [overlap, lambda_f, lambda_s, sigmaM, sigmaRT, sigmaFI, rho, drift, N, norm] = config
     
     #Assign mets to either one of the datasets
-    num_mets1 = math.floor(overlap*num_mets + (1+lambda_f)*(num_mets*((1-overlap)/2)))
-    num_mets2 = math.floor(overlap*num_mets + (1-lambda_f)*(num_mets*((1-overlap)/2)))
+    num_mets1 = math.floor((overlap+lambda_f*(1-overlap))*num_mets)
+    num_mets2 = math.floor((overlap+(1-lambda_f)*(1-overlap))*num_mets)
     num_mets_shared = num_mets1 + num_mets2 - num_mets
     
     mets_tracker1 = mets_tracker[0:num_mets1]
@@ -121,7 +121,7 @@ def generate_dataset_pair(config, data):
     else:
         Data1[3:,:]=samples1
     
-    Data2 = np.zeros((samples2.shape[0]+3, samples1.shape[1]))
+    Data2 = np.zeros((samples2.shape[0]+3, samples2.shape[1]))
     Data2[0,:]=mets_tracker2
     Data2[1,:]=ms2
     Data2[2,:]=rs2

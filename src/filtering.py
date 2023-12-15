@@ -57,7 +57,7 @@ def WRT_adjustment(RT1, RT2, couple, filtr = 'MSE', K_outliers=0, inner_filtr = 
             sel = error<mse
         elif inner_filtr == 'MAD':
             error = np.sqrt((pred - y1)**2)
-            mad = np.median(error) + 2*stats.median_absolute_deviation(error)
+            mad = np.median(error) + 2*stats.median_abs_deviation(error)
             sel = error<mad
         elif inner_filtr == 'mean':
             error = np.sqrt((pred - y1)**2)
@@ -115,7 +115,7 @@ def WRT_adjustment(RT1, RT2, couple, filtr = 'MSE', K_outliers=0, inner_filtr = 
         thr = mse
     elif filtr == 'MAD':
         error = np.sqrt((pred - y1)**2)
-        mad = np.median(error) + 2*stats.median_absolute_deviation(error)
+        mad = np.median(error) + 2*stats.median_abs_deviation(error)
         sel = error<mad
         thr = mad
     elif filtr == 'mean':

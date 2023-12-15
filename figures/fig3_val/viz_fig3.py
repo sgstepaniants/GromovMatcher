@@ -25,7 +25,7 @@ alpha = 0.3
 
 size = (6,6)
 dpi = 500
-
+xw
 os.chdir(sys.path[0])
 
 max_fun = lambda Pi: Pi * ((Pi > 0) & (Pi >= np.maximum(np.max(Pi, axis=1)[:, None], np.max(Pi, axis=0)[None, :])))
@@ -51,7 +51,7 @@ for overlap in overlaps:
 
 
     # GromovMatcher matching
-    fileGM = f"../../Coupling_matrices/GMBScouple_topRT_[{overlap}, 0.01, 0.5, 0.5, 'smooth', 1]_[0.01, 'MAD', 4].npy"
+    fileGM = f"../../Coupling_matrices/GMcouple_topRT_[{overlap}, 0.01, 0.5, 0.5, 'smooth', 1]_[0.01, 'MAD', 4].npy"
     coupling = np.load(fileGM, allow_pickle = True)
 
     coupling = coupling.astype('float64')

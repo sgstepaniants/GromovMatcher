@@ -3,6 +3,7 @@ import os
 import math
 import torch
 
+import pandas as pd
 from sklearn import metrics
 import scipy.interpolate as si
 import matplotlib.pyplot as plt
@@ -210,7 +211,7 @@ def GM(Data1, Data2, D1 = None, D2 = None, w = 'm/z', mgap = 0.01,
         plot_list = np.intersect1d(plot_list, np.array(['Distance patterns', 'Weights', 'Coupling','RT drift','Outliers']))
 
     
-    if plot_path != '':
+    if plot_path is not None and plot_path != '':
         if(not os.path.exists(plot_path)):
             print('Warning: user-specified plot_path leads to a folder that does not exist.')
             print('Creating the '+plot_path+' folder now.')
