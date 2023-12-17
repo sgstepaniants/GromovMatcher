@@ -105,10 +105,12 @@ def generate_dataset_pair(config, data):
     rs2 = rs2 + sigmaRT * np.random.uniform(-1,1,size = num_mets2)
     rs2[rs2 < 0.1] = 0.1 
     
-    corr = generate_corrmat(num_mets1, 100, rho)
-    noise1 = np.random.multivariate_normal(np.zeros(num_mets1), corr, halfsamples)
+    corr1 = generate_corrmat(num_mets1, 100, rho)
+    noise1 = np.random.multivariate_normal(np.zeros(num_mets1), corr1, halfsamples)
     samples1 = samples1 + sigmaFI * np.std(samples1) * noise1
-    noise2 = np.random.multivariate_normal(np.zeros(num_mets2), np.eye(num_mets2), numsamples - halfsamples)
+    
+    corr2 = generate_corrmat(num_mets2, 100, rho)
+    noise2 = np.random.multivariate_normal(np.zeros(num_mets2), corr2, numsamples - halfsamples)
     samples2 = samples2 + sigmaFI * np.std(samples2) * noise2
     
     #Put in desired format
