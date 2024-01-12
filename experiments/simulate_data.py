@@ -160,14 +160,16 @@ if __name__ == '__main__':
     data = pd.read_excel(sys.argv[1])
 
     overlap = float(sys.argv[2])
-    sigmaM = float(sys.argv[3])
-    sigmaRT = float(sys.argv[4])
-    sigmaFI = float(sys.argv[5])
-    rho = float(sys.argv[6])
-    drift = sys.argv[7]
-    trial = int(sys.argv[8])
-    norm = sys.argv[9] == "True"
-    config = [overlap, sigmaM, sigmaRT, sigmaFI, rho, drift, trial, norm]
+    lambda_f = float(sys.argv[3])
+    lambda_s = float(sys.argv[4])
+    sigmaM = float(sys.argv[5])
+    sigmaRT = float(sys.argv[6])
+    sigmaFI = float(sys.argv[7])
+    rho = float(sys.argv[8])
+    drift = sys.argv[9]
+    trial = int(sys.argv[10])
+    norm = sys.argv[11] == "True"
+    config = [overlap, lambda_f, lambda_s, sigmaM, sigmaRT, sigmaFI, rho, drift, trial, norm]
 
     np.random.seed(trial)
     Data1, Data2, true_matching = generate_dataset_pair(config, data)

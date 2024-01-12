@@ -25,7 +25,7 @@ alpha = 0.3
 
 size = (6,6)
 dpi = 500
-xw
+
 os.chdir(sys.path[0])
 
 max_fun = lambda Pi: Pi * ((Pi > 0) & (Pi >= np.maximum(np.max(Pi, axis=1)[:, None], np.max(Pi, axis=0)[None, :])))
