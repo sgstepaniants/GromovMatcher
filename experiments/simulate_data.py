@@ -56,7 +56,7 @@ def piecewise(x):
 
 
 def generate_dataset_pair(config, data):
-    # config = [overlap, inbalance in features, inbalance in samples, m/z noise, RT noise, FI noise, FI noise correlation, RT drift, N, norm]
+    # config = [overlap, unbalance in features, unbalance in samples, m/z noise, RT noise, FI noise, FI noise correlation, RT drift, N, norm]
 
     ms, rs, samples = readCorrMat(data)
     numsamples = samples.shape[0]
