@@ -2,7 +2,8 @@
 
 The GromovMatcher method is an optimal transport based algorithm for matching pairs of LC-MS untargeted metabolomic datasets.
 
-This algorithm is part of our paper: "Optimal transport for automatic alignment of untargeted metabolomic data".
+This algorithm is part of our paper: Breeur Marie, Stepaniants George, et al. (2023) Optimal transport for automatic alignment of untargeted metabolomic data, eLife 12:RP91597, 
+DOI: https://doi.org/10.7554/eLife.91597.2
 
 
 ## Installation
